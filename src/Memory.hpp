@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __MEMORY_HPP__
+#define __MEMORY_HPP__
 
 #include <cstdint>
 
@@ -17,3 +18,4 @@ private:
 	uint16_t m_Size;
 };
 
+#endif // __MEMORY_HPP__

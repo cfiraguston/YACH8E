@@ -1,6 +1,10 @@
 // The code in this file was not created by me and is not mine.
 // It is based on: https://github.com/qxxxb/sdl2-beeper.
 // I've adapted and modified it for my project.
+
+#ifndef __BEEPER_HPP__
+#define __BEEPER_HPP__
+
 #include <SDL.h>
 
 class Beeper
@@ -45,3 +49,5 @@ private:
         int len
     );
 };
+
+#endif // __BEEPER_HPP__

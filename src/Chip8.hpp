@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __CHIP8_HPP__
+#define __CHIP8_HPP__
 
 #include "Memory.hpp"
 #include "Keyboard.hpp"
@@ -27,3 +28,4 @@ private:
 	CPU * m_CPU;
 };
 
+#endif // __CHIP8_HPP__

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __AUDIO_HPP__
+#define __AUDIO_HPP__
 
 #include <cstdint>
 #include <chrono>
@@ -15,3 +16,4 @@ private:
 	std::chrono::steady_clock::time_point m_StartTime;
 };
 
+#endif // __AUDIO_HPP__

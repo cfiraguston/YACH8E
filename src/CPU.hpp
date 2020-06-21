@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __CPU_HPP__
+#define __CPU_HPP__
 
 #include <cstdint>
 #include "Memory.hpp"
@@ -55,3 +56,4 @@ private:
 	uint16_t m_OffsetFont;			// Fonts offset
 };
 
+#endif // __CPU_HPP__

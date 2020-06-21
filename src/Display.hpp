@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __DISPLAY_HPP__
+#define __DISPLAY_HPP__
 
 #include <cstdint>
 #include "SDL.h"
@@ -25,3 +26,4 @@ private:
 	SDL_Surface* m_Surface;
 };
 
+#endif // __DISPLAY_HPP__

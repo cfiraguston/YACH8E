@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __KEYBOARD_HPP__
+#define __KEYBOARD_HPP__
 
 #include <cstdint>
 #include "SDL.h"
@@ -19,3 +20,4 @@ private:
 	bool m_Keypad[NUM_OF_KEYPAD];
 };
 
+#endif // __KEYBOARD_HPP__
