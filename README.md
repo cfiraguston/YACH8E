@@ -1,2 +1,2 @@
 # YACH8E
-Yet Another CHip-8 Emulator
+YACH8E (pronounced 'yacht') - Yet Another CHip-8 Emulator
