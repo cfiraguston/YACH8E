@@ -18,6 +18,25 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\beeper.cpp" />
+    <ClCompile Include="src\Chip8.cpp" />
+    <ClCompile Include="src\CPU.cpp" />
+    <ClCompile Include="src\Display.cpp" />
+    <ClCompile Include="src\Keyboard.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Memory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Audio.hpp" />
+    <ClInclude Include="src\beeper.hpp" />
+    <ClInclude Include="src\Chip8.hpp" />
+    <ClInclude Include="src\CPU.hpp" />
+    <ClInclude Include="src\Display.hpp" />
+    <ClInclude Include="src\Keyboard.hpp" />
+    <ClInclude Include="src\Memory.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -148,25 +167,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="beeper.cpp" />
-    <ClCompile Include="Chip8.cpp" />
-    <ClCompile Include="CPU.cpp" />
-    <ClCompile Include="Display.cpp" />
-    <ClCompile Include="Keyboard.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Memory.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Audio.hpp" />
-    <ClInclude Include="beeper.hpp" />
-    <ClInclude Include="Chip8.hpp" />
-    <ClInclude Include="CPU.hpp" />
-    <ClInclude Include="Display.hpp" />
-    <ClInclude Include="Keyboard.hpp" />
-    <ClInclude Include="Memory.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
