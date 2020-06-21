@@ -16,7 +16,7 @@ class Chip8
 {
 public:
 	Chip8();
-	void init(char* filename);
+	bool init(char* filename);
 	void run();
 private:
 	Memory* m_RAM;

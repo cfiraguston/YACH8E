@@ -31,10 +31,21 @@ Chip8::Chip8()
 	m_CPU = new CPU(m_RAM, m_STACK, m_Keyboard, m_Display, m_Audio, ADDRESS_START_OF_PROGRAM, ADDRESS_START_OF_FONT);
 }
 
-void Chip8::init(char* filename)
+bool Chip8::init(char* filename)
 {
-	m_CPU->loadROM(filename, ADDRESS_START_OF_PROGRAM);
-	m_CPU->loadROM(&(Chip8Fonts[0][0]), ADDRESS_START_OF_FONT, sizeof(Chip8Fonts));
+	bool bRetVal = false;
+
+	// load ROM from file
+	if (m_CPU->loadROM(filename, ADDRESS_START_OF_PROGRAM) == true)
+	{
+		// load fonts
+		if (m_CPU->loadROM(&(Chip8Fonts[0][0]), ADDRESS_START_OF_FONT, sizeof(Chip8Fonts)) == true)
+		{
+			bRetVal = true;
+		}
+	}
+
+	return bRetVal;
 }
 
 void Chip8::run()

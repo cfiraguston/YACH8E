@@ -10,7 +10,11 @@ int main(int argc, char* argv[])
 
 	if (argc > 1)
 	{
-		chip8.init(argv[1]);
+        // perform chip8 initialization and if succeeded run endlessly
+        if (chip8.init(argv[1]) == true)
+        {
+            chip8.run();
+        }
 	}
 	else
 	{
@@ -18,8 +22,6 @@ int main(int argc, char* argv[])
 		std::cout << "YACH8E.exe [filename]" << std::endl;
 		return -1;
 	}
-
-	chip8.run();
 
 	return 0;
 }

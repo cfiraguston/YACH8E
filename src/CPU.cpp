@@ -28,8 +28,10 @@ CPU::CPU(Memory* RAM, Memory* STACK, Keyboard* Keyboard, Display* Display, Audio
 	srand((unsigned int)time(NULL));
 }
 
-void CPU::loadROM(char* filename, uint16_t offset)
+bool CPU::loadROM(char* filename, uint16_t offset)
 {
+	bool bRetVal = false;
+
 	// open file
 	std::ifstream streamInputFile(filename, std::ios::in | std::ios::binary | std::ios::ate);
 	if (streamInputFile.is_open() == true)
@@ -43,16 +45,21 @@ void CPU::loadROM(char* filename, uint16_t offset)
 		// print some ROM info
 		std::cout << "Loaded file " << filename << " succesfully." << std::endl;
 		std::cout << "\tROM size = " << uiFileSize << " bytes." << std::endl;
+		bRetVal = true;
 	}
 	else
 	{
 		std::cout << "Error opening file " << filename << std::endl;
+		bRetVal = false;
 	}
+
+	return bRetVal;
 }
 
-void CPU::loadROM(uint8_t* data, uint16_t offset, size_t size)
+bool CPU::loadROM(uint8_t* data, uint16_t offset, size_t size)
 {
 	memcpy((char*)(m_RAM->getMemory() + offset), data, size);
+	return true;
 }
 
 void CPU::execute()

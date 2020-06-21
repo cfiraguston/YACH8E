@@ -10,8 +10,8 @@ class CPU
 {
 public:
 	CPU(Memory* RAM, Memory* STACK, Keyboard* Keyboard, Display* Display, Audio* Audio, uint16_t offsetProgram, uint16_t offsetFont);
-	void loadROM(char* filename, uint16_t offset);
-	void loadROM(uint8_t* data, uint16_t offset, size_t size);
+	bool loadROM(char* filename, uint16_t offset);
+	bool loadROM(uint8_t* data, uint16_t offset, size_t size);
 	void execute();
 
 private:
