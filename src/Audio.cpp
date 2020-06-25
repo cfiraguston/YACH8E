@@ -20,7 +20,7 @@ void Audio::play()
 {
     std::chrono::steady_clock::time_point CurrentTime = std::chrono::high_resolution_clock::now();
     long long DiffTime = std::chrono::duration_cast<std::chrono::microseconds>(CurrentTime - m_StartTime).count();
-    if (DiffTime <= ((float)m_Ticks * 100.0 * 16.6))
+    if (DiffTime <= ((float)m_Ticks * 2000.0 * 16.6))
     {
         Beeper::play();
     }

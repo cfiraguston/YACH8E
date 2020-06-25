@@ -1,6 +1,4 @@
-// http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
-// http://mattmik.com/files/chip8/mastering/chip8.html
-
+// Chip-8 Emulator - Created by Cfir Aguston
 #include <iostream>
 #include "Chip8.hpp"
 

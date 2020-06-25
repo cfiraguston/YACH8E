@@ -56,6 +56,7 @@ void Display::putPixel(uint8_t row, uint8_t col, uint8_t val)
 	{
 		for (uint8_t idxX = 0; idxX < m_PixelSize; idxX++)
 		{
+			// set only green component, modulu display dimensions
 			m_DisplayData[((row % DISPLAY_HEIGHT) * m_PixelSize) + idxX][((col % DISPLAY_WIDTH) * m_PixelSize) + idxY][1] ^= val;	// set only Green
 		}
 	}

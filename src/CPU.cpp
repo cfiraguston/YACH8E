@@ -139,9 +139,11 @@ void CPU::execute()
 			OR(&(m_RegisterV[x]), &(m_RegisterV[y]));
 			break;
 		case 0x2:	// 8xy2 - AND Vx, Vy
+			// Set Vx = Vx AND Vy.
 			AND(&(m_RegisterV[x]), &(m_RegisterV[y]));
 			break;
 		case 0x3:	// 8xy3 - XOR Vx, Vy
+			// Set Vx = Vx XOR Vy.
 			XOR(&(m_RegisterV[x]), &(m_RegisterV[y]));
 			break;
 		case 0x4:	// 8xy4 - ADD Vx, Vy
@@ -226,11 +228,8 @@ void CPU::execute()
 			break;
 		case 0x18:	// Fx18 - LD ST, Vx
 			// Set sound timer = Vx.
-			{
-				uint8_t temp = m_RegisterV[x] * 20;
-				LD(&m_RegisterST, &(temp));
-				m_Audio->setBeep(m_RegisterST);
-			}
+			LD(&m_RegisterST, &(m_RegisterV[x]));
+			m_Audio->setBeep(m_RegisterST);
 			break;
 		case 0x1E:	// Fx1E - ADD I, Vx
 			// Set I = I + Vx.
@@ -283,12 +282,14 @@ void CPU::SYS()
 	m_RegisterPC += 2;
 }
 
+// Clear the display.
 void CPU::CLS()
 {
 	m_Display->clear();
 	m_RegisterPC += 2;
 }
 
+// Return from a subroutine.
 void CPU::RET()
 {
 	m_RegisterPC = m_STACK->read16(m_RegisterSP);
@@ -296,11 +297,13 @@ void CPU::RET()
 	m_RegisterSP -= 2;
 }
 
+// Jump to location at base + address.
 void CPU::JP(uint16_t address, uint8_t base)
 {
 	m_RegisterPC = base + address;
 }
 
+// Call subroutine at address.
 void CPU::CALL(uint16_t address)
 {
 	m_RegisterSP += 2;
@@ -308,6 +311,7 @@ void CPU::CALL(uint16_t address)
 	m_RegisterPC = address;
 }
 
+// Skip next instruction if val1 = val2.
 void CPU::SE(uint8_t val1, uint8_t val2)
 {
 	if (val1 == val2)
@@ -320,6 +324,7 @@ void CPU::SE(uint8_t val1, uint8_t val2)
 	}
 }
 
+// Skip next instruction if val1 != val2.
 void CPU::SNE(uint8_t val1, uint8_t val2)
 {
 	if (val1 != val2)
@@ -332,18 +337,21 @@ void CPU::SNE(uint8_t val1, uint8_t val2)
 	}
 }
 
+// Set 8-bits dst = src.
 void CPU::LD(uint8_t *dst, uint8_t *src)
 {
 	*dst = *src;
 	m_RegisterPC += 2;
 }
 
+// Set 16-bits dst = src.
 void CPU::LD(uint16_t* dst, uint16_t* src)
 {
 	*dst = *src;
 	m_RegisterPC += 2;
 }
 
+// Set dst = dst + src, VF = 1 if carry, VF = 0 if no carry
 void CPU::ADD(uint8_t* dst, uint8_t* src)
 {
 	*dst = (*dst) + (*src);
@@ -351,36 +359,42 @@ void CPU::ADD(uint8_t* dst, uint8_t* src)
 	m_RegisterPC += 2;
 }
 
+// Set 8-bits dst = dst + src.
 void CPU::ADD_NoCarry(uint8_t* dst, uint8_t* src)
 {
 	*dst = (*dst) + (*src);
 	m_RegisterPC += 2;
 }
 
+// Set 16-bits dst = dst + src.
 void CPU::ADD_NoCarry(uint16_t* dst, uint8_t* src)
 {
 	*dst = (*dst) + (*src);
 	m_RegisterPC += 2;
 }
 
+// Set dst = dst OR src.
 void CPU::OR(uint8_t* dst, uint8_t* src)
 {
 	*dst = (*dst) | (*src);
 	m_RegisterPC += 2;
 }
 
+// Set dst = dst AND src.
 void CPU::AND(uint8_t* dst, uint8_t* src)
 {
 	*dst = (*dst) & (*src);
 	m_RegisterPC += 2;
 }
 
+// Set dst = dst XOR src.
 void CPU::XOR(uint8_t* dst, uint8_t* src)
 {
 	*dst = (*dst) ^ (*src);
 	m_RegisterPC += 2;
 }
 
+// Set dst = dst - src, VF = 1 if no borrow, VF = 0 if borrow.
 void CPU::SUB(uint8_t* dst, uint8_t* src)
 {
 	m_RegisterV[0xF] = ((*dst) >= (*src)) ? 0x01 : 0x00;
@@ -388,6 +402,7 @@ void CPU::SUB(uint8_t* dst, uint8_t* src)
 	m_RegisterPC += 2;
 }
 
+// Set dst shift right by 1, VF = LSB before shift.
 void CPU::SHR(uint8_t* dst)
 {
 	m_RegisterV[0xF] = (*dst) & 0x01;
@@ -395,6 +410,7 @@ void CPU::SHR(uint8_t* dst)
 	m_RegisterPC += 2;
 }
 
+// set dst = src - dst, VF = 1 if no borrow, VF = 0 if borrow.
 void CPU::SUBN(uint8_t* dst, uint8_t* src)
 {
 	*dst = (*src) - (*dst);
@@ -402,6 +418,7 @@ void CPU::SUBN(uint8_t* dst, uint8_t* src)
 	m_RegisterPC += 2;
 }
 
+// Set dst shift left by 1, VF = MSB before shift.
 void CPU::SHL(uint8_t* dst)
 {
 	m_RegisterV[0xF] = ((*dst) & 0x80) >> 7;
@@ -409,44 +426,27 @@ void CPU::SHL(uint8_t* dst)
 	m_RegisterPC += 2;
 }
 
+// dst = random[0..255] AND src
 void CPU::RND(uint8_t* dst, uint8_t* src)
 {
 	*dst = (rand() % 256) & (*src);
 	m_RegisterPC += 2;
 }
 
+// Draw sprite at position [col, row]
 void CPU::DRW(uint8_t col, uint8_t row, uint8_t size)
 {
-#if 0
-	uint8_t temp;
 	m_RegisterV[0xF] = 0x00;
-	for (uint8_t idxY = 0; idxY < size; idxY++)
+	for (uint8_t idxY = 0; idxY < size; idxY++)								// go over all bytes composing the sprite
 	{
-		uint8_t CurrentSpriteByte = m_RAM->read8(m_RegisterI + idxY);
-		for (int8_t idxX = 7; idxX >= 0; idxX--)
+		uint8_t CurrentSpriteByte = m_RAM->read8(m_RegisterI + idxY);		// read current byte of sprite
+		for (int8_t idxX = 0; idxX < 8; idxX++)								// go over all bits (pixels) in byte
 		{
-			uint8_t CurrentBit = (CurrentSpriteByte >> idxX) & 0x01;
-			if (CurrentBit != 0)
+			if ((CurrentSpriteByte & (0x80 >> idxX)) != 0)					//	if current bit is on
 			{
-				temp = m_Display->getPixel(row + idxY, col + (7 - idxX));
-				//m_RegisterV[0xF] = ((m_Display->getPixel(row + idxY, col + (7 - idxX)) != 0) && (CurrentBit == 0x00)) ? 0x01 : m_RegisterV[0xF];
-				//if (temp != 0) m_RegisterV[0xF] = 0x01;
-				m_Display->putPixel(row + idxY, col + (7 - idxX), CurrentBit * 255);
-			}
-		}
-	}
-#endif
-	m_RegisterV[0xF] = 0x00;
-	for (uint8_t idxY = 0; idxY < size; idxY++)
-	{
-		uint8_t CurrentSpriteByte = m_RAM->read8(m_RegisterI + idxY);
-		for (int8_t idxX = 0; idxX < 8; idxX++)
-		{
-			if ((CurrentSpriteByte & (0x80 >> idxX)) != 0)
-			{
-				if (m_Display->getPixel(row + idxY, col + idxX) == 0xFF)
+				if (m_Display->getPixel(row + idxY, col + idxX) == 0xFF)	// if pixel is already on
 				{
-					m_RegisterV[0xF] = 0x01;
+					m_RegisterV[0xF] = 0x01;								// set VF = 1 since pixel have XOR logic (pixel_on XOR current_on == 0 (unset))
 				}
 				m_Display->putPixel(row + idxY, col + idxX, 0xFF);
 			}
@@ -454,6 +454,7 @@ void CPU::DRW(uint8_t col, uint8_t row, uint8_t size)
 	}
 }
 
+// Skip next instruction if key(val) is pressed, else proceed to next instruction.
 void CPU::SKP(uint8_t val)
 {
 	if (m_Keyboard->getKey(val) == true)
@@ -466,6 +467,7 @@ void CPU::SKP(uint8_t val)
 	}
 }
 
+// Skip next instruction if key(val) is not pressed, else proceed to next instruction.
 void CPU::SKNP(uint8_t val)
 {
 	if (m_Keyboard->getKey(val) == false)
@@ -478,6 +480,7 @@ void CPU::SKNP(uint8_t val)
 	}
 }
 
+// Update delay timer and sound timer registers
 void CPU::updateTimers()
 {
 	if (m_RegisterDT > 0)
